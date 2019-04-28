@@ -10,7 +10,7 @@ import aiofiles
 
 enable_logging = False
 enable_response_delay = False
-base_file_storage_path = 'test_photos'
+base_file_storage_path = 'photos'
 
 
 async def archivate(request):
