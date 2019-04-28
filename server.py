@@ -3,6 +3,7 @@ import os.path
 import logging
 import os
 import argparse
+import sys
 
 from aiohttp import web
 import aiofiles
@@ -113,6 +114,13 @@ if __name__ == '__main__':
             os.getenv('BASE_FILE_STORAGE_PATH') or
             base_file_storage_path
     )
+
+    if not os.path.exists(base_file_storage_path):
+        logging.critical(
+            f'Given base file storage path does not exists: '
+            f'{base_file_storage_path}',
+        )
+        sys.exit(1)
 
     if enable_logging:
         logging.basicConfig(level=logging.INFO)
