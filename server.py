@@ -9,13 +9,13 @@ import aiofiles
 
 enable_logging = False
 enable_response_delay = False
-storage_base_path = 'test_photos'
+base_file_storage_path = 'test_photos'
 
 
 async def archivate(request):
     archive_hash = request.match_info['archive_hash']
 
-    archive_content_path = os.path.join(storage_base_path, archive_hash)
+    archive_content_path = os.path.join(base_file_storage_path, archive_hash)
 
     if not os.path.exists(archive_content_path):
         raise web.HTTPNotFound(text='Archive does not exists or was removed')
@@ -26,7 +26,7 @@ async def archivate(request):
     )
     await response.prepare(request)
 
-    archivating_process = await asyncio.create_subprocess_shell(
+    archiving_process = await asyncio.create_subprocess_shell(
         f'zip - {archive_content_path} -jr',
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
@@ -36,7 +36,7 @@ async def archivate(request):
 
     try:
         while True:
-            archive_chunk = await archivating_process.stdout.readline()
+            archive_chunk = await archiving_process.stdout.readline()
 
             if not archive_chunk:
                 break
@@ -45,7 +45,7 @@ async def archivate(request):
                 await asyncio.sleep(1)
 
             logging.info(
-                f'Sending archive chunk #{chunk_number} '
+                f'Archive {archive_hash}: Sending chunk #{chunk_number} '
                 f'with size {len(archive_chunk)} bytes ...'
             )
             await response.write(archive_chunk)
@@ -53,14 +53,14 @@ async def archivate(request):
             chunk_number += 1
 
     except asyncio.CancelledError:
-        logging.info('Cancelled error')
-        archivating_process.terminate()
+        logging.info(f'Archive {archive_hash}: Cancelled error')
+        archiving_process.terminate()
         raise
     finally:
-        logging.info('Force closing')
+        logging.info(f'Archive {archive_hash}: Force closing')
         response.force_close()
 
-    logging.info('Transfer finished')
+    logging.info(f'Archive {archive_hash}: Transfer finished')
 
     return response
 
@@ -108,10 +108,10 @@ if __name__ == '__main__':
             os.getenv('ENABLE_RESPONSE_DELAY') or
             enable_response_delay
     )
-    storage_base_path = (
+    base_file_storage_path = (
             command_line_arguments.path or
-            os.getenv('STORE_BASE_PATH') or
-            storage_base_path
+            os.getenv('BASE_FILE_STORAGE_PATH') or
+            base_file_storage_path
     )
 
     if enable_logging:
