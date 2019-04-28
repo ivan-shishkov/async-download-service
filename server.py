@@ -96,6 +96,15 @@ def get_command_line_arguments():
     return parser.parse_args()
 
 
+def run_server():
+    app = web.Application()
+    app.add_routes([
+        web.get('/', handle_index_page),
+        web.get('/archive/{archive_hash}/', archivate),
+    ])
+    web.run_app(app)
+
+
 if __name__ == '__main__':
     command_line_arguments = get_command_line_arguments()
 
@@ -125,9 +134,4 @@ if __name__ == '__main__':
     if enable_logging:
         logging.basicConfig(level=logging.INFO)
 
-    app = web.Application()
-    app.add_routes([
-        web.get('/', handle_index_page),
-        web.get('/archive/{archive_hash}/', archivate),
-    ])
-    web.run_app(app)
+    run_server()
