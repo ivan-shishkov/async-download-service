@@ -77,19 +77,19 @@ def get_command_line_arguments():
     parser.add_argument(
         '-l',
         '--logging',
-        help='Enables logging',
+        help='enable logging',
         action='store_true',
     )
     parser.add_argument(
         '-d',
         '--delay',
-        help='Enables delay for send response',
+        help='enable delay for sending response',
         action='store_true',
     )
     parser.add_argument(
         '-p',
         '--path',
-        help='Base path for store',
+        help='a base file storage path',
         type=str,
     )
     return parser.parse_args()
