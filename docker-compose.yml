@@ -1,0 +1,10 @@
+version: "3"
+services:
+  async-download-service:
+    build: .
+    environment:
+      ENABLE_LOGGING: 1
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./photos:/usr/src/app/photos
