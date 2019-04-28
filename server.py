@@ -99,14 +99,14 @@ if __name__ == '__main__':
     command_line_arguments = get_command_line_arguments()
 
     enable_logging = bool(
-        command_line_arguments.logging or
-        os.getenv('ENABLE_LOGGING') or
-        enable_logging
+            command_line_arguments.logging or
+            os.getenv('ENABLE_LOGGING') or
+            enable_logging
     )
     enable_response_delay = bool(
-        command_line_arguments.delay or
-        os.getenv('ENABLE_RESPONSE_DELAY') or
-        enable_response_delay
+            command_line_arguments.delay or
+            os.getenv('ENABLE_RESPONSE_DELAY') or
+            enable_response_delay
     )
     storage_base_path = (
             command_line_arguments.path or
