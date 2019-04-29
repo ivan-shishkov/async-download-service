@@ -2,15 +2,11 @@ import asyncio
 import os.path
 import logging
 import os
-import argparse
 import sys
 
 from aiohttp import web
 import aiofiles
-
-enable_logging = False
-enable_response_delay = False
-base_file_storage_path = 'photos'
+import configargparse
 
 
 async def archivate(request):
@@ -73,25 +69,31 @@ async def handle_index_page(request):
 
 
 def get_command_line_arguments():
-    parser = argparse.ArgumentParser()
+    parser = configargparse.ArgumentParser()
 
     parser.add_argument(
         '-l',
         '--logging',
-        help='enable logging',
-        action='store_true',
+        help='logging on/off (0: off, 1: on). Default: 0',
+        env_var='ENABLE_LOGGING',
+        type=int,
+        default=0,
     )
     parser.add_argument(
         '-d',
         '--delay',
-        help='enable delay for sending response',
-        action='store_true',
+        help='delay for sending response on/off (0: off, 1: on). Default: 0',
+        env_var='ENABLE_RESPONSE_DELAY',
+        type=int,
+        default=0,
     )
     parser.add_argument(
         '-p',
         '--path',
-        help='a base file storage path',
+        help='a base file storage path. Default: photos',
+        env_var='BASE_FILE_STORAGE_PATH',
         type=str,
+        default='photos',
     )
     return parser.parse_args()
 
@@ -108,21 +110,9 @@ def run_server():
 if __name__ == '__main__':
     command_line_arguments = get_command_line_arguments()
 
-    enable_logging = bool(
-        command_line_arguments.logging or
-        os.getenv('ENABLE_LOGGING') or
-        enable_logging
-    )
-    enable_response_delay = bool(
-        command_line_arguments.delay or
-        os.getenv('ENABLE_RESPONSE_DELAY') or
-        enable_response_delay
-    )
-    base_file_storage_path = (
-        command_line_arguments.path or
-        os.getenv('BASE_FILE_STORAGE_PATH') or
-        base_file_storage_path
-    )
+    enable_logging = bool(command_line_arguments.logging)
+    enable_response_delay = bool(command_line_arguments.delay)
+    base_file_storage_path = command_line_arguments.path
 
     if not os.path.exists(base_file_storage_path):
         logging.critical(
