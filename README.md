@@ -34,33 +34,26 @@ $ pip install -r requirements.txt
 
 ## How to setup
 
-### Using command line arguments
-
 ```bash
 
 $ python server.py -h
-usage: server.py [-h] [-l] [-d] [-p PATH]
+usage: server.py [-h] [-l LOGGING] [-d DELAY] [-p PATH]
+
+If an arg is specified in more than one place, then commandline values
+override environment variables which override defaults.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -l, --logging         enable logging
-  -d, --delay           enable delay for sending response
-  -p PATH, --path PATH  a base file storage path
+  -l LOGGING, --logging LOGGING
+                        logging on/off (0: off, 1: on). Default: 0 [env var:
+                        ENABLE_LOGGING]
+  -d DELAY, --delay DELAY
+                        delay for sending response on/off (0: off, 1: on).
+                        Default: 0 [env var: ENABLE_RESPONSE_DELAY]
+  -p PATH, --path PATH  a base file storage path. Default: photos [env var:
+                        BASE_FILE_STORAGE_PATH]
 
 ```
-
-### Using environment variables
-
-* **ENABLE_LOGGING** - enable logging
-* **ENABLE_RESPONSE_DELAY** - enable delay for sending response
-* **BASE_FILE_STORAGE_PATH** - a base file storage path
-
-### Default settings
-
-* Logging is disabled
-* Sending response delay is disabled
-* Base file storage directory is **photos**
-
 
 ## How to launch
 
