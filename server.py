@@ -55,6 +55,7 @@ async def archivate(request):
         logging.info(f'{archive_info_message}: Cancelled error')
         archiving_process.terminate()
         raise
+
     finally:
         logging.info(f'{archive_info_message}: Force closing')
         response.force_close()
