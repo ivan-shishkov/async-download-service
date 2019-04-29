@@ -65,6 +65,26 @@ $ python server.py
 
 The server will start on port 8080. To check its operation, you must open a browser and go to [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
 
+## How to launch inside Docker container
+
+To run microservice inside the Docker container, you need to install **Docker CE** and **Docker Compose**, and then execute the command:
+
+```bash
+
+# docker-compose up
+
+```
+
+Microservice will be available at [http://127.0.0.1:8080/](http://127.0.0.1:8080/).
+
+To stop microservice you need to run the command:
+
+```bash
+
+# docker-compose down
+
+```
+
 ## How to deploy to server
 
 ```bash
