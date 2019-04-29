@@ -3,13 +3,14 @@ import os.path
 import logging
 import os
 import sys
+from functools import partial
 
 from aiohttp import web
 import aiofiles
 import configargparse
 
 
-async def archivate(request):
+async def archivate(request, base_file_storage_path, enable_response_delay):
     archive_hash = request.match_info['archive_hash']
 
     archive_info_message = f'Archive {archive_hash}'
@@ -101,30 +102,36 @@ def get_command_line_arguments():
     return parser.parse_args()
 
 
-def run_server():
+def main():
+    command_line_arguments = get_command_line_arguments()
+
+    if not os.path.exists(command_line_arguments.path):
+        logging.critical(
+            f'Given base file storage path does not exists: '
+            f'{command_line_arguments.path}',
+        )
+        sys.exit(1)
+
+    if command_line_arguments.logging:
+        logging.basicConfig(level=logging.INFO)
+
     app = web.Application()
     app.add_routes([
-        web.get('/', handle_index_page),
-        web.get('/archive/{archive_hash}/', archivate),
+        web.get(
+            path='/',
+            handler=handle_index_page,
+        ),
+        web.get(
+            path='/archive/{archive_hash}/',
+            handler=partial(
+                archivate,
+                base_file_storage_path=command_line_arguments.path,
+                enable_response_delay=command_line_arguments.delay,
+            ),
+        ),
     ])
     web.run_app(app)
 
 
 if __name__ == '__main__':
-    command_line_arguments = get_command_line_arguments()
-
-    enable_logging = bool(command_line_arguments.logging)
-    enable_response_delay = bool(command_line_arguments.delay)
-    base_file_storage_path = command_line_arguments.path
-
-    if not os.path.exists(base_file_storage_path):
-        logging.critical(
-            f'Given base file storage path does not exists: '
-            f'{base_file_storage_path}',
-        )
-        sys.exit(1)
-
-    if enable_logging:
-        logging.basicConfig(level=logging.INFO)
-
-    run_server()
+    main()
