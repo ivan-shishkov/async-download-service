@@ -24,7 +24,7 @@ The hash is given by the name of the file directory, the directory structure loo
 
 ## How to install
 
-For microservice to work, you need to install **Python 3.7** and then install all dependencies:
+For microservice to work, you need to install **Python 3.6+** and then install all dependencies:
 
 ```bash
 
