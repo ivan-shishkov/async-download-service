@@ -12,6 +12,8 @@ import configargparse
 async def archivate(request):
     archive_hash = request.match_info['archive_hash']
 
+    archive_info_message = f'Archive {archive_hash}'
+
     archive_content_path = os.path.join(base_file_storage_path, archive_hash)
 
     if not os.path.exists(archive_content_path):
@@ -42,7 +44,7 @@ async def archivate(request):
                 await asyncio.sleep(1)
 
             logging.info(
-                f'Archive {archive_hash}: Sending chunk #{chunk_number} '
+                f'{archive_info_message}: Sending chunk #{chunk_number} '
                 f'with size {len(archive_chunk)} bytes ...'
             )
             await response.write(archive_chunk)
@@ -50,14 +52,14 @@ async def archivate(request):
             chunk_number += 1
 
     except asyncio.CancelledError:
-        logging.info(f'Archive {archive_hash}: Cancelled error')
+        logging.info(f'{archive_info_message}: Cancelled error')
         archiving_process.terminate()
         raise
     finally:
-        logging.info(f'Archive {archive_hash}: Force closing')
+        logging.info(f'{archive_info_message}: Force closing')
         response.force_close()
 
-    logging.info(f'Archive {archive_hash}: Transfer finished')
+    logging.info(f'{archive_info_message}: Transfer finished')
 
     return response
 
