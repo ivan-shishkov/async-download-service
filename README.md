@@ -32,7 +32,7 @@ $ pip install -r requirements.txt
 
 ```
 
-## How to setup
+## How to set up
 
 ```bash
 
