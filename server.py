@@ -81,6 +81,7 @@ def get_command_line_arguments():
         help='logging on/off (0: off, 1: on). Default: 0',
         env_var='ENABLE_LOGGING',
         type=int,
+        choices=[0, 1],
         default=0,
     )
     parser.add_argument(
@@ -89,6 +90,7 @@ def get_command_line_arguments():
         help='delay for sending response on/off (0: off, 1: on). Default: 0',
         env_var='ENABLE_RESPONSE_DELAY',
         type=int,
+        choices=[0, 1],
         default=0,
     )
     parser.add_argument(

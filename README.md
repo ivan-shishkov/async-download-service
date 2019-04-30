@@ -37,17 +37,17 @@ $ pip install -r requirements.txt
 ```bash
 
 $ python server.py -h
-usage: server.py [-h] [-l LOGGING] [-d DELAY] [-p PATH]
+usage: server.py [-h] [-l {0,1}] [-d {0,1}] [-p PATH]
 
 If an arg is specified in more than one place, then commandline values
 override environment variables which override defaults.
 
 optional arguments:
   -h, --help            show this help message and exit
-  -l LOGGING, --logging LOGGING
+  -l {0,1}, --logging {0,1}
                         logging on/off (0: off, 1: on). Default: 0 [env var:
                         ENABLE_LOGGING]
-  -d DELAY, --delay DELAY
+  -d {0,1}, --delay {0,1}
                         delay for sending response on/off (0: off, 1: on).
                         Default: 0 [env var: ENABLE_RESPONSE_DELAY]
   -p PATH, --path PATH  a base file storage path. Default: photos [env var:
