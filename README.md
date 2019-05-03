@@ -36,6 +36,7 @@ $ pip install -r requirements.txt
 
 ```bash
 
+$ cd src/
 $ python server.py -h
 usage: server.py [-h] [-l {0,1}] [-d {0,1}] [-p PATH]
 
@@ -59,6 +60,7 @@ optional arguments:
 
 ```bash
 
+$ cd src/
 $ python server.py
 
 ```
@@ -89,6 +91,7 @@ To stop microservice you need to run the command:
 
 ```bash
 
+$ cd src/
 $ python server.py
 
 ```

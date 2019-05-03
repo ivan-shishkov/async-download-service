@@ -9,9 +9,10 @@ WORKDIR /usr/src/app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY server.py .
-COPY index.html .
-
 RUN mkdir photos
+
+COPY src/ .
+
+WORKDIR /usr/src/app/src
 
 CMD ["python", "server.py"]

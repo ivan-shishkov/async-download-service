@@ -96,10 +96,10 @@ def get_command_line_arguments():
     parser.add_argument(
         '-p',
         '--path',
-        help='a base file storage path. Default: photos',
+        help='a base file storage path. Default: ../photos',
         env_var='BASE_FILE_STORAGE_PATH',
         type=str,
-        default='photos',
+        default='../photos',
     )
     return parser.parse_args()
 
